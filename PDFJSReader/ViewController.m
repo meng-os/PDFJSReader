@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "PDFWebView.h"
+#import "PDFJSViewController.h"
 
 @interface ViewController ()
 
@@ -15,13 +15,29 @@
 
 @implementation ViewController
 
-#pragma mark - life cycle
-- (void)viewDidLoad {
+- (void)viewDidLoad{
     [super viewDidLoad];
     
-    PDFWebView *webView = [[PDFWebView alloc] initWithFrame:self.view.bounds];
-    [self.view addSubview:webView];
-    NSString *pdfFilePath = [[NSBundle mainBundle] pathForResource:@"git搭建" ofType:@"pdf"];
-    [webView loadPDFFile:pdfFilePath];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(100, 150, 100, 40)];
+    [button setTitle:@"PDF" forState:UIControlStateNormal];
+    button.backgroundColor = [UIColor redColor];
+    [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:button];
+    
 }
+
+- (void)buttonClick:(UIButton *)button{
+    PDFJSViewController *vc = [[PDFJSViewController alloc]init];
+    vc.title = @"PDF";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+//- (IBAction)buttonClick:(UIButton *)sender {
+//    PDFJSViewController *vc = [[PDFJSViewController alloc]init];
+//    vc.title = @"PDF";
+//    [self.navigationController pushViewController:vc animated:YES];
+//}
+
 @end

@@ -321,7 +321,7 @@ var _toolbar = __webpack_require__(31);
 
 var _view_history = __webpack_require__(32);
 
-var DEFAULT_SCALE_DELTA = 1.1;
+var DEFAULT_SCALE_DELTA = 1.2;
 var DISABLE_AUTO_FETCH_LOADING_BAR_TIMEOUT = 5000;
 var FORCE_PAGES_LOADED_TIMEOUT = 10000;
 var DefaultExternalServices = {
@@ -10148,7 +10148,7 @@ var Toolbar = function () {
           items.pageNumber.type = 'text';
         } else {
           items.pageNumber.type = 'number';
-          this.l10n.get('of_pages', { pagesCount: pagesCount }, 'of {{pagesCount}}').then(function (msg) {
+          this.l10n.get('of_pages', { pagesCount: pagesCount }, '/ {{pagesCount}}').then(function (msg) {
             items.numPages.textContent = msg;
           });
         }

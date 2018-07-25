@@ -17,6 +17,7 @@
 		2C15858A1EC5ABB1002510DA /* PDFJSReaderUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C1585891EC5ABB1002510DA /* PDFJSReaderUITests.m */; };
 		2C1585991EC5AC6A002510DA /* PDFWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C1585981EC5AC6A002510DA /* PDFWebView.m */; };
 		2C15859D1EC5AD9A002510DA /* git搭建.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2C15859C1EC5AD9A002510DA /* git搭建.pdf */; };
+		E4C656412108833A00149EDD /* PDFJSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C656402108833A00149EDD /* PDFJSViewController.m */; };
 		E4FAF87C21080BB70026F4AE /* PDFJS in Resources */ = {isa = PBXBuildFile; fileRef = E4FAF87B21080BB70026F4AE /* PDFJS */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,8 @@
 		2C1585971EC5AC6A002510DA /* PDFWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFWebView.h; sourceTree = "<group>"; };
 		2C1585981EC5AC6A002510DA /* PDFWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFWebView.m; sourceTree = "<group>"; };
 		2C15859C1EC5AD9A002510DA /* git搭建.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "git搭建.pdf"; sourceTree = "<group>"; };
+		E4C6563F2108833A00149EDD /* PDFJSViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDFJSViewController.h; sourceTree = "<group>"; };
+		E4C656402108833A00149EDD /* PDFJSViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDFJSViewController.m; sourceTree = "<group>"; };
 		E4FAF87B21080BB70026F4AE /* PDFJS */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PDFJS; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,12 +111,14 @@
 		2C1585631EC5ABB1002510DA /* PDFJSReader */ = {
 			isa = PBXGroup;
 			children = (
-				2C15859C1EC5AD9A002510DA /* git搭建.pdf */,
 				E4FAF87B21080BB70026F4AE /* PDFJS */,
+				2C15859C1EC5AD9A002510DA /* git搭建.pdf */,
 				2C1585971EC5AC6A002510DA /* PDFWebView.h */,
 				2C1585981EC5AC6A002510DA /* PDFWebView.m */,
 				2C1585671EC5ABB1002510DA /* AppDelegate.h */,
 				2C1585681EC5ABB1002510DA /* AppDelegate.m */,
+				E4C6563F2108833A00149EDD /* PDFJSViewController.h */,
+				E4C656402108833A00149EDD /* PDFJSViewController.m */,
 				2C15856A1EC5ABB1002510DA /* ViewController.h */,
 				2C15856B1EC5ABB1002510DA /* ViewController.m */,
 				2C15856D1EC5ABB1002510DA /* Main.storyboard */,
@@ -293,6 +298,7 @@
 				2C1585691EC5ABB1002510DA /* AppDelegate.m in Sources */,
 				2C1585991EC5AC6A002510DA /* PDFWebView.m in Sources */,
 				2C1585661EC5ABB1002510DA /* main.m in Sources */,
+				E4C656412108833A00149EDD /* PDFJSViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
