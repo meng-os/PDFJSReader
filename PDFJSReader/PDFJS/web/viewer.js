@@ -1,3 +1,8 @@
+/*
+个人修改部分:
+1.从 1164行开始.
+*/
+
 /**
  * @licstart The following is the entire license notice for the
  * Javascript code in this page
@@ -128,6 +133,7 @@ var pdfjsWebApp = void 0,
 {
   __webpack_require__(38);
 }
+
 function getViewerConfiguration() {
   return {
     appContainer: document.body,
@@ -1160,17 +1166,39 @@ var PDFViewerApplication = {
     setViewerModes(scrollMode, spreadMode);
     this.isInitialViewSet = true;
     this.pdfSidebar.setInitialView(sidebarView);
-    if (this.initialBookmark) {
-      setRotation(this.initialRotation);
-      delete this.initialRotation;
-      this.pdfLinkService.setHash(this.initialBookmark);
-      this.initialBookmark = null;
-    } else if (storedHash) {
-      setRotation(rotation);
-      this.pdfLinkService.setHash(storedHash);
+
+    // if (this.initialBookmark) {
+    //   setRotation(this.initialRotation);
+    //   delete this.initialRotation;
+    //   this.pdfLinkService.setHash(this.initialBookmark);
+    //   this.initialBookmark = null;
+    // } else if (storedHash) {
+    //   setRotation(rotation);
+    //   this.pdfLinkService.setHash(storedHash);
+    // }
+
+    // this.toolbar.setPageNumber(this.pdfViewer.currentPageNumber, this.pdfViewer.currentPageLabel);
+    // this.secondaryToolbar.setPageNumber(this.pdfViewer.currentPageNumber);
+    
+    /********* 个人修改 **********/
+    //从url中获取页数
+    var locationUrl = window.location.href;
+    
+    var subString = locationUrl;
+    var pages = subString.split("=");
+    var page = Number(pages[pages.length - 1]);
+    // alert(subString);
+
+    var pageCount = this.pdfDocument.numPages;
+    if (page > pageCount){
+        page = pageCount;
     }
-    this.toolbar.setPageNumber(this.pdfViewer.currentPageNumber, this.pdfViewer.currentPageLabel);
-    this.secondaryToolbar.setPageNumber(this.pdfViewer.currentPageNumber);
+    this.pdfViewer.currentPageNumber = page;
+    this.toolbar.setPageNumber(page, this.pdfViewer.currentPageLabel);
+    this.secondaryToolbar.setPageNumber(page);
+
+    /************ 修改 ************/
+
     if (!this.pdfViewer.currentScaleValue) {
       this.pdfViewer.currentScaleValue = _ui_utils.DEFAULT_SCALE_VALUE;
     }
@@ -1378,7 +1406,7 @@ var validateFileURL = void 0;
       var _ref7 = new _pdfjsLib.URL(file, window.location.href),
           origin = _ref7.origin,
           protocol = _ref7.protocol;
-
+      
       if (origin !== viewerOrigin && protocol !== 'blob:') {
         throw new Error('file origin does not match viewer\'s');
       }
@@ -1518,6 +1546,7 @@ function webViewerPageRendered(evt) {
     });
   }
 }
+
 function webViewerTextLayerRendered(evt) {}
 function webViewerPageMode(evt) {
   var mode = evt.mode,
@@ -2082,6 +2111,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 
 var CSS_UNITS = 96.0 / 72.0;
 var DEFAULT_SCALE_VALUE = 'auto';
@@ -9165,6 +9195,7 @@ var _pdfjsLib = __webpack_require__(3);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+
 var EXPAND_DIVS_TIMEOUT = 300;
 
 var TextLayerBuilder = function () {
@@ -9513,6 +9544,25 @@ var _ui_utils = __webpack_require__(2);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+//JS调用OC方法
+function updateUIView() {
+  loadURL("pdfpagechanged://pagechanged");
+}
+
+//JS调用OC方法,拦截url
+function loadURL(url) {
+  var iFrame;
+  iFrame = document.createElement("iframe");
+  iFrame.setAttribute("src", url);
+  iFrame.setAttribute("style", "display:none;");
+  iFrame.setAttribute("height", "0px");
+  iFrame.setAttribute("width", "0px");
+  iFrame.setAttribute("frameborder", "0");
+  document.body.appendChild(iFrame);
+  iFrame.parentNode.removeChild(iFrame);
+  iFrame = null;
+}
+
 var SecondaryToolbar = function () {
   function SecondaryToolbar(options, mainContainer, eventBus) {
     var _this = this;
@@ -9636,6 +9686,7 @@ var SecondaryToolbar = function () {
     value: function setPageNumber(pageNumber) {
       this.pageNumber = pageNumber;
       this._updateUIState();
+      updateUIView();
     }
   }, {
     key: 'setPagesCount',
@@ -9658,6 +9709,7 @@ var SecondaryToolbar = function () {
       this.items.lastPage.disabled = this.pageNumber >= this.pagesCount;
       this.items.pageRotateCw.disabled = this.pagesCount === 0;
       this.items.pageRotateCcw.disabled = this.pagesCount === 0;
+      // updateUIView();
     }
   }, {
     key: '_bindClickListeners',

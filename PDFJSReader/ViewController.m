@@ -31,6 +31,11 @@
 - (void)buttonClick:(UIButton *)button{
     PDFJSViewController *vc = [[PDFJSViewController alloc]init];
     vc.title = @"PDF";
+    vc.startPage = 30;
+    
+    NSString *pdfFilePath = [[NSBundle mainBundle] pathForResource:@"git搭建" ofType:@"pdf"];
+    vc.filePath = pdfFilePath;
+    
     [self.navigationController pushViewController:vc animated:YES];
 }
 

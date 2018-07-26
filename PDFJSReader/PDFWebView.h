@@ -22,4 +22,21 @@
  */
 - (void)loadPDFFile:(NSString*)filePath;
 
+/**
+ 页数
+ */
+@property (nonatomic, assign) NSInteger pageNumber;
+
+@property (nonatomic, assign) NSInteger startPageNumber;
+
+/**
+ 关闭pdf
+ */
+- (void)closePdf;
+
+/**
+ 清除缓存
+ */
+- (void)clearAllUIWebViewData;
+
 @end
