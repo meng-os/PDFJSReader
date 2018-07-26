@@ -1,6 +1,7 @@
 /*
 个人修改部分:
-1.从 1164行开始.
+1.从 1164行开始,获取路径中的页数
+2.从 1174行开始,添加JS 调用OC的方法
 */
 
 /**
@@ -1193,6 +1194,10 @@ var PDFViewerApplication = {
     if (page > pageCount){
         page = pageCount;
     }
+    if (page < 1){
+        page = 1;
+    }
+
     this.pdfViewer.currentPageNumber = page;
     this.toolbar.setPageNumber(page, this.pdfViewer.currentPageLabel);
     this.secondaryToolbar.setPageNumber(page);
@@ -1771,7 +1776,28 @@ function webViewerRotationChanging(evt) {
   PDFViewerApplication.forceRendering();
   PDFViewerApplication.pdfViewer.currentPageNumber = evt.pageNumber;
 }
+
+//JS调用OC方法
+function updateUIView() {
+  loadURL("pdfpagechanged://pagechanged");
+}
+
+//JS调用OC方法,拦截url
+function loadURL(url) {
+  var iFrame;
+  iFrame = document.createElement("iframe");
+  iFrame.setAttribute("src", url);
+  iFrame.setAttribute("style", "display:none;");
+  iFrame.setAttribute("height", "0px");
+  iFrame.setAttribute("width", "0px");
+  iFrame.setAttribute("frameborder", "0");
+  document.body.appendChild(iFrame);
+  iFrame.parentNode.removeChild(iFrame);
+  iFrame = null;
+}
+
 function webViewerPageChanging(evt) {
+  updateUIView();
   var page = evt.pageNumber;
   PDFViewerApplication.toolbar.setPageNumber(page, evt.pageLabel || null);
   PDFViewerApplication.secondaryToolbar.setPageNumber(page);
@@ -9544,25 +9570,6 @@ var _ui_utils = __webpack_require__(2);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-//JS调用OC方法
-function updateUIView() {
-  loadURL("pdfpagechanged://pagechanged");
-}
-
-//JS调用OC方法,拦截url
-function loadURL(url) {
-  var iFrame;
-  iFrame = document.createElement("iframe");
-  iFrame.setAttribute("src", url);
-  iFrame.setAttribute("style", "display:none;");
-  iFrame.setAttribute("height", "0px");
-  iFrame.setAttribute("width", "0px");
-  iFrame.setAttribute("frameborder", "0");
-  document.body.appendChild(iFrame);
-  iFrame.parentNode.removeChild(iFrame);
-  iFrame = null;
-}
-
 var SecondaryToolbar = function () {
   function SecondaryToolbar(options, mainContainer, eventBus) {
     var _this = this;
@@ -9686,7 +9693,7 @@ var SecondaryToolbar = function () {
     value: function setPageNumber(pageNumber) {
       this.pageNumber = pageNumber;
       this._updateUIState();
-      updateUIView();
+      // updateUIView();
     }
   }, {
     key: 'setPagesCount',
@@ -9709,7 +9716,6 @@ var SecondaryToolbar = function () {
       this.items.lastPage.disabled = this.pageNumber >= this.pagesCount;
       this.items.pageRotateCw.disabled = this.pagesCount === 0;
       this.items.pageRotateCcw.disabled = this.pagesCount === 0;
-      // updateUIView();
     }
   }, {
     key: '_bindClickListeners',

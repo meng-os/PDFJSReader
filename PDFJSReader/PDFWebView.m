@@ -21,6 +21,17 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
         self.startPageNumber = 1;
+        
+        //双击
+        UITapGestureRecognizer *doubleTap = ({
+            UITapGestureRecognizer *tapGestureRecognizer =
+            [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapped:)];
+            tapGestureRecognizer.numberOfTapsRequired = 2;
+            tapGestureRecognizer;
+        });
+        
+        [self addGestureRecognizer:doubleTap];
+    
     }
     return self;
 }
@@ -46,6 +57,11 @@
     NSString *string = @"window.PDFViewerApplication.page";
     NSString *result = [self stringByEvaluatingJavaScriptFromString:string];
     return [result integerValue];
+}
+
+#pragma mark - GestureRecognizer
+- (void)doubleTapped:(UITapGestureRecognizer *)recognizer{
+//    NSString *scaleString =
 }
 
 /**

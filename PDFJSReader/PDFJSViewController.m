@@ -10,7 +10,7 @@
 #import "PDFJSViewController.h"
 #import "PDFWebView.h"
 
-@interface PDFJSViewController () <UIWebViewDelegate>
+@interface PDFJSViewController () <UIWebViewDelegate, UIScrollViewDelegate>
 {
     NSInteger _pageNumber;
 }
@@ -32,10 +32,16 @@
     PDFWebView *webView = [[PDFWebView alloc] initWithFrame:self.view.bounds];
     webView.startPageNumber = self.startPage;
     webView.delegate = self;
+    webView.scrollView.delegate = self;
     self.webView = webView;
     [self.view addSubview:webView];
     [webView loadPDFFile:self.filePath];
     
+}
+
+- (void)viewDidLayoutSubviews{
+    [super viewDidLayoutSubviews];
+    self.webView.frame = self.view.bounds;
 }
 
 #pragma mark - lazy
@@ -70,7 +76,6 @@
 }
 
 #pragma mark - method
-
 - (void)startTimer{
     
 }
