@@ -8,7 +8,7 @@
 
 #import "PDFWebView.h"
 
-@interface PDFWebView ()
+@interface PDFWebView () <UIGestureRecognizerDelegate>
 
 @end
 
@@ -21,17 +21,18 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
         self.startPageNumber = 1;
-        
+        self.scrollView.bounces = NO;
         //双击
         UITapGestureRecognizer *doubleTap = ({
             UITapGestureRecognizer *tapGestureRecognizer =
             [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapped:)];
             tapGestureRecognizer.numberOfTapsRequired = 2;
+            tapGestureRecognizer.delegate = self;
             tapGestureRecognizer;
         });
         
         [self addGestureRecognizer:doubleTap];
-    
+        
     }
     return self;
 }
@@ -59,17 +60,26 @@
     return [result integerValue];
 }
 
-#pragma mark - GestureRecognizer
-- (void)doubleTapped:(UITapGestureRecognizer *)recognizer{
-//    NSString *scaleString =
-}
-
 /**
  关闭pdf
  */
 - (void)closePdf{
     NSString *string = @"window.PDFViewerApplication.close();";
     [self stringByEvaluatingJavaScriptFromString:string];
+}
+
+#pragma mark - GestureRecognizer
+- (void)doubleTapped:(UITapGestureRecognizer *)recognizer{
+    dispatch_async(dispatch_get_main_queue(), ^{
+//        NSString *string = @"window.PDFViewerApplication.zoomIn()";
+        NSString *string = @"document.getElementById('zoomIn').click();";
+        [self stringByEvaluatingJavaScriptFromString:string];
+    });
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
 }
 
 - (void)clearAllUIWebViewData {

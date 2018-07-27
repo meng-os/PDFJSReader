@@ -111,12 +111,8 @@
 		2C1585631EC5ABB1002510DA /* PDFJSReader */ = {
 			isa = PBXGroup;
 			children = (
-				E4FAF87B21080BB70026F4AE /* PDFJS */,
+				E4FEAEB3210AC6D200B58B3B /* PDFJSReader */,
 				2C15859C1EC5AD9A002510DA /* git搭建.pdf */,
-				2C1585971EC5AC6A002510DA /* PDFWebView.h */,
-				2C1585981EC5AC6A002510DA /* PDFWebView.m */,
-				E4C6563F2108833A00149EDD /* PDFJSViewController.h */,
-				E4C656402108833A00149EDD /* PDFJSViewController.m */,
 				2C15856A1EC5ABB1002510DA /* ViewController.h */,
 				2C15856B1EC5ABB1002510DA /* ViewController.m */,
 				2C1585671EC5ABB1002510DA /* AppDelegate.h */,
@@ -154,6 +150,18 @@
 				2C15858B1EC5ABB1002510DA /* Info.plist */,
 			);
 			path = PDFJSReaderUITests;
+			sourceTree = "<group>";
+		};
+		E4FEAEB3210AC6D200B58B3B /* PDFJSReader */ = {
+			isa = PBXGroup;
+			children = (
+				E4FAF87B21080BB70026F4AE /* PDFJS */,
+				2C1585971EC5AC6A002510DA /* PDFWebView.h */,
+				2C1585981EC5AC6A002510DA /* PDFWebView.m */,
+				E4C6563F2108833A00149EDD /* PDFJSViewController.h */,
+				E4C656402108833A00149EDD /* PDFJSViewController.m */,
+			);
+			path = PDFJSReader;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -449,6 +457,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = AVDM6B7733;
 				INFOPLIST_FILE = PDFJSReader/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

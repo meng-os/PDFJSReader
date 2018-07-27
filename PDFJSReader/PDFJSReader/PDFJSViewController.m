@@ -6,7 +6,6 @@
 //  Copyright © 2018年 lilu. All rights reserved.
 //
 
-#import <JavaScriptCore/JavaScriptCore.h>
 #import "PDFJSViewController.h"
 #import "PDFWebView.h"
 
@@ -14,8 +13,18 @@
 {
     NSInteger _pageNumber;
 }
+
+/**
+ 是否加载成功
+ */
+@property (nonatomic, assign) BOOL loadSuccess;
 @property (nonatomic, strong) PDFWebView *webView;
-@property (nonatomic, strong) JSContext *context;
+
+/**
+ 计时
+ */
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, assign) NSInteger readTime;
 
 @end
 
@@ -39,9 +48,34 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (self.loadSuccess && !_timer) {
+        //加载成功才可以计时
+        [self startTimer];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self endTimer];
+}
+
 - (void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
     self.webView.frame = self.view.bounds;
+    
+    if (self.navigationController) {
+        if (self.navigationController.navigationBar.translucent) {
+            //导航栏半透明
+            CGFloat statusH = CGRectGetHeight([[UIApplication sharedApplication] statusBarFrame]);
+            CGFloat navH = CGRectGetHeight(self.navigationController.navigationBar.frame);
+            CGFloat topHeight = statusH + navH;
+            CGFloat webH = CGRectGetHeight(self.view.bounds) - topHeight;
+            self.webView.frame = CGRectMake(0, topHeight, CGRectGetWidth(self.view.bounds), webH);
+            return;
+        }
+    }
 }
 
 #pragma mark - lazy
@@ -76,12 +110,36 @@
 }
 
 #pragma mark - method
+// !!!: ---------- 计时部分 ----------
 - (void)startTimer{
+    if (_timer) {
+        [_timer invalidate];
+        _timer = nil;
+    }
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
+}
+
+- (void)endTimer{
+    [_timer invalidate];
+    _timer = nil;
     
+    //结束计时时回调
+    NSDictionary *dict = @{@"maxReadPage" : @(self.maxReadPageNumber),
+                           @"currentPage" : @(self.pageNumber),
+                           @"time" : @(self.readTime)
+                           };
+    self.readEndHandler(dict);
+    
+}
+
+- (void)updateTime{
+    self.readTime ++;
 }
 
 #pragma mark - UIWebViewDelegate
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
+    self.loadSuccess = YES;
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
     [self startTimer];
 }
 

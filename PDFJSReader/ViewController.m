@@ -31,18 +31,16 @@
 - (void)buttonClick:(UIButton *)button{
     PDFJSViewController *vc = [[PDFJSViewController alloc]init];
     vc.title = @"PDF";
-    vc.startPage = 30;
+    vc.startPage = 9;
     
     NSString *pdfFilePath = [[NSBundle mainBundle] pathForResource:@"git搭建" ofType:@"pdf"];
     vc.filePath = pdfFilePath;
     
+    vc.readEndHandler = ^(NSDictionary *dict) {
+        NSLog(@"阅读进度:%@", dict);
+    };
+    
     [self.navigationController pushViewController:vc animated:YES];
 }
-
-//- (IBAction)buttonClick:(UIButton *)sender {
-//    PDFJSViewController *vc = [[PDFJSViewController alloc]init];
-//    vc.title = @"PDF";
-//    [self.navigationController pushViewController:vc animated:YES];
-//}
 
 @end

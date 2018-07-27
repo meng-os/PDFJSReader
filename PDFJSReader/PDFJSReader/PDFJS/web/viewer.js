@@ -9693,7 +9693,6 @@ var SecondaryToolbar = function () {
     value: function setPageNumber(pageNumber) {
       this.pageNumber = pageNumber;
       this._updateUIState();
-      // updateUIView();
     }
   }, {
     key: 'setPagesCount',
