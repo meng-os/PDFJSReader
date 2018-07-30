@@ -65,8 +65,9 @@
     [super viewDidLayoutSubviews];
     self.webView.frame = self.view.bounds;
     
-    if (self.navigationController) {
-        if (self.navigationController.navigationBar.translucent) {
+    if (self.navigationController &&
+        (!self.navigationController.navigationBar.isHidden) &&
+        self.navigationController.navigationBar.translucent){
             //导航栏半透明
             CGFloat statusH = CGRectGetHeight([[UIApplication sharedApplication] statusBarFrame]);
             CGFloat navH = CGRectGetHeight(self.navigationController.navigationBar.frame);
@@ -74,7 +75,6 @@
             CGFloat webH = CGRectGetHeight(self.view.bounds) - topHeight;
             self.webView.frame = CGRectMake(0, topHeight, CGRectGetWidth(self.view.bounds), webH);
             return;
-        }
     }
 }
 

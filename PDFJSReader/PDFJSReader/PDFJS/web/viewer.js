@@ -1184,20 +1184,21 @@ var PDFViewerApplication = {
     /********* 个人修改 **********/
     //从url中获取页数
     var locationUrl = window.location.href;
-    
-    var subString = locationUrl;
-    var pages = subString.split("=");
+    var pages = locationUrl.split("=");
     var page = Number(pages[pages.length - 1]);
-    // alert(subString);
-
+      
+    if(isNaN(page)){
+    page = 1;
+    }
+      
     var pageCount = this.pdfDocument.numPages;
     if (page > pageCount){
-        page = pageCount;
+    page = pageCount;
     }
     if (page < 1){
-        page = 1;
+    page = 1;
     }
-
+      
     this.pdfViewer.currentPageNumber = page;
     this.toolbar.setPageNumber(page, this.pdfViewer.currentPageLabel);
     this.secondaryToolbar.setPageNumber(page);
